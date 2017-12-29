@@ -16,6 +16,9 @@ ePaper displays are great for low power devices. They do not need much energy wh
 
 [![Build Status](https://travis-ci.org/krzychb/esp-epaper-29-ws.svg?branch=master)](https://travis-ci.org/krzychb/esp-epaper-29-ws)
 
+## Documentation
+
+[![Documentation Status](https://readthedocs.org/projects/esp-epaper-29-ws/badge/?version=latest)](http://esp-epaper-29-ws.readthedocs.io/en/latest/?badge=latest)
 
 ## Usage Notes
 
