@@ -1,26 +1,84 @@
 # 2.9" Waveshare ePaper Driver Example
 
-Communicate with [2.9" Waveshare ePaper Module](https://www.waveshare.com/wiki/2.9inch_e-Paper_Module) using SPI interface of [ESP32](http://espressif.com/en/products/hardware/esp32/overview) and [ESP-IDF](https://github.com/espressif/esp-idf).
+Communicate with [2.9" Waveshare ePaper Module](https://www.waveshare.com/wiki/2.9inch_e-Paper_Module) using SPI interface of [ESP32](http://espressif.com/en/products/hardware/esp32/overview) and [ESP-IDF](https://github.com/espressif/esp-idf) or [Arduino](https://www.arduino.cc/).
 
 * [2.9" Waveshare ePaper Module Datasheet](pictures/2.9inch_e-Paper_Datasheet.pdf)
 
+
 ## About
 
-ePaper displays are great for low power devices. They do not need much energy when operated. They retain the last image at zero energy consumed. You can buy them cheaply as they are produced in high volumes to be used in stores as electronic shelf labels. I decided to use such display for one of my projects. Unfortunately I could not find a driver that would easy integrate into my code. Also documentation how to drive them is still somewhat obscure (December 2017). Fortunately with help of great resources mentioned in [Credits](#credits) I was able to develop the driver I was looking for.
+ePaper displays are great for low power applications. They do not need much energy when operated. They retain the last image at zero energy consumed. You can buy them cheaply as they are produced in high volumes to be used in stores as electronic shelf labels. If your do not need fast update of displayed information, go ahead and use ePaper display for your project! This is what I decided to do. Unfortunately I could not find a driver that would easy integrate into my code. Also documentation how to drive them is still somewhat obscure (December 2017). Fortunately with help of great resources mentioned in [Credits](#credits) I was able to develop the driver I was looking for.
 
 ![alt text](pictures/e-paper-and-esp-sample-image.jpg "ePaper display showing a sample graphics image")
 ![alt text](pictures/e-paper-and-esp-sample-text.jpg "ePaper display showing a sample text and lines drawn from the application using graphics functions")
 
 
-## Build Status
+### How to run this example
+
+#### Arduino
+
+The quickest way check this software in action is in [Arduino](https://www.arduino.cc/) environment. It should work with all Arduino boards that have SPI interface. Some concern may be the size of memory to store the image. To display the full memory buffer you need 4736 bytes of RAM. If you do not have enough memory, then you can update display where it changed, using smaller chunks of memory. As this project is oriented to use [ESP32](http://espressif.com/en/products/hardware/esp32/overview) chip, there is no concern, it has more than enough RAM. To load the [application](Arduino/epd2in9-demo) use instructions in [espressif/arduino-esp32](https://github.com/espressif/arduino-esp32) repository.
+
+#### ESP-IDF
+
+To use the [example code](main) with [ESP-IDF](https://github.com/espressif/esp-idf) framework, please follow [ESP32 Get Started](https://esp-idf.readthedocs.io/en/latest/get-started/index.html).
+
+
+### Wiring of ePaper Module used in example code
+
+| Signal Name | ePaper Module | ESP32 |
+| :--- | :---: | :---: |
+| Module Busy | BUSY | GPIO22 |
+| Reset | RST | GPIO23 |
+| Data / Command | DC | GPIO21 |
+| Slave Select | CS | GPIO19 |
+| Serial Clock | CLK | GPIO18 |
+| Master Out Slave In | DIN | GPIO5 |
+| Ground | GND | GND |
+| Power Supply | 3.3V | 3V3 |
+
+
+### Example log output
+
+### Arduino
+
+```
+Starting...
+Init done.
+Cleared frame memory.
+Displayed welcome text
+Displayed image data
+Displayed black screen
+```
+
+### ESP-IDF
+
+```
+I (0) cpu_start: Starting scheduler on APP CPU.
+I (259) ePaper Example: Starting example
+I (259) ePaper Example: Before ePaper driver init, heap: 297852
+I (279) ePaper Driver: SPI data sent 30
+I (279) ePaper Example: e-Paper Display Espressif logo
+I (279) ePaper Driver: SPI data sent 4736
+I (6969) ePaper Example: e-Paper Display sample graphics
+I (7039) ePaper Driver: SPI data sent 4736
+I (8669) ePaper Example: EPD Display update count: 0
+I (8669) ePaper Example: After ePaper driver delete, heap: 302292
+
+```
+
+
+## Build Status for ESP-IDF
 
 [![Build Status](https://travis-ci.org/krzychb/esp-epaper-29-ws.svg?branch=master)](https://travis-ci.org/krzychb/esp-epaper-29-ws)
 
-## Documentation
+
+## Documentation for ESP-IDF
 
 [![Documentation Status](https://readthedocs.org/projects/esp-epaper-29-ws/badge/?version=latest)](http://esp-epaper-29-ws.readthedocs.io/en/latest/?badge=latest)
 
-## Usage Notes
+
+## ESP-IDF Usage Notes
 
 ### Changes to the original driver
 
@@ -44,41 +102,6 @@ To convert an exiting image to the C header file, use an application recommended
 
 ![alt text](pictures/image-conversion-setup.png "Example how to set up the application to convert an image to the C header file")
 
-
-### Wiring of ePaper Module used in example code
-
-| Signal Name | ePaper Module | ESP32 |
-| :--- | :---: | :---: |
-| Module Busy | BUSY | GPIO22 |
-| Reset | RST | GPIO23 |
-| Data / Command | DC | GPIO21 |
-| Slave Select | CS | GPIO19 |
-| Serial Clock | CLK | GPIO18 |
-| Master Out Slave In | DIN | GPIO5 |
-| Ground | GND | GND |
-| Power Supply | 3.3V | 3V3 |
-
-
-### How to run this example
-
-Please follow [ESP32 Get Started](https://esp-idf.readthedocs.io/en/latest/get-started/index.html).
-
-
-### Example output
-
-```
-I (0) cpu_start: Starting scheduler on APP CPU.
-I (259) ePaper Example: Starting example
-I (259) ePaper Example: Before ePaper driver init, heap: 297852
-I (279) ePaper Driver: SPI data sent 30
-I (279) ePaper Example: e-Paper Display Espressif logo
-I (279) ePaper Driver: SPI data sent 4736
-I (6969) ePaper Example: e-Paper Display sample graphics
-I (7039) ePaper Driver: SPI data sent 4736
-I (8669) ePaper Example: EPD Display update count: 0
-I (8669) ePaper Example: After ePaper driver delete, heap: 302292
-
-```
 
 ## Contribute
 
